@@ -10,9 +10,7 @@ export class CasesService {
   getAllCases(username) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.post('https://10.20.24.60:3000/users/cases', username, { headers: headers })
-        return this.http.post('https://localhost:3001/users/cases', username, { headers: headers })
-
+    return this.http.post('https://10.20.24.60:3000/users/cases', username, { headers: headers })
       .map(res => res.json());
   }
   getWeeklyCases(user, date = new Date()) {
@@ -25,9 +23,7 @@ export class CasesService {
     }
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.post('https://10.20.24.60:3000/users/cases/weekly', data, { headers: headers })
-        return this.http.post('https://localhost:3001/users/cases/weekly', data, { headers: headers })
-
+    return this.http.post('https://10.20.24.60:3000/users/cases/weekly', data, { headers: headers })
       .map(res => res.json());
   }
 

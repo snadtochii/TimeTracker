@@ -5,7 +5,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent {//implements OnInit {
+export class ChartComponent {
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true,
@@ -39,10 +39,6 @@ export class ChartComponent {//implements OnInit {
 
   // events
   public chartClicked(e: any): void {
-    // this.selectedDay = e.active[0] ? e.active[0]._index : null;
-    // if (this.selectedDay) {
-    //   this.selectedDayCases = this.weeklyCases[this.selectedDay];
-    // }
     console.log(e)
   }
 

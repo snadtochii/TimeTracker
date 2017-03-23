@@ -14,9 +14,8 @@ export class DayDetailsComponent implements OnInit, OnChanges {
   public selectedDate: string;
   constructor() { }
 
-  ngOnInit() {
-    // this.casesToOutput = this.dayCases.cases;
-  }
+  ngOnInit() { }
+  
   ngOnChanges(changes: SimpleChanges) {
     this.casesToOutput = changes['dayCases'].currentValue.cases;
     this.selectedDate = changes['dayCases'].currentValue.selectedDate.toString().slice(0, 15);

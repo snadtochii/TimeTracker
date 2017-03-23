@@ -99,7 +99,6 @@ export class WeeklyStatisticsComponent implements OnInit {
   public selRole;
   // events
   public cellClicked(e: any, i: number, role: string): void {
-//this.selRole = role
     this.selectedDay = null;
     this.selectedDayCases = { cases: null, show: null, selectedDate: null };
     this.selectedDay = i;
