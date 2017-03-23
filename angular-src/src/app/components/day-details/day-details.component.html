@@ -1,0 +1,42 @@
+<div *ngIf="dayCases">
+  <h4>{{selectedDate}}</h4>
+  <div>
+    <a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'images qc'|| dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Images QC')">Images QC</a>
+    <a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'ce' || dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Segmentation')">Segmentation</a>
+    <a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'ce' || dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Segmentation Rejected')">Segmentation Reject</a>
+    <a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'qe' || dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Segmentation QC')">Segmentation QC</a>
+    <a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'ce' || dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Pre-Planning')">Pre-Planning</a>
+    <!--<a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'qe' || dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Pre-Planning QC')">Pre-Planning QC</a>-->
+    <a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'ce' || dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Design')">Design</a>
+    <a href="" class="btn btn-link btn-sm" *ngIf="dayCases.show === 'ce' || dayCases.show === 'all'" 
+      (click)="filterByStep($event, 'Design Rejected')">Design Rejected</a>
+ 
+  </div>
+  <table class="table table-striped table-hover ">
+    <thead>
+      <tr>
+        <th>Case ID</th>
+        <th>Case Type</th>
+        <th>Step</th>
+        <th>Time, mm</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let case of casesToOutput">
+        <td>{{case.caseID}}</td>
+        <td>{{case.caseType}}</td>
+        <td>{{case.step}}</td>
+        <td>{{case.time}}</td>
+        <td>{{case.date.slice(0,10)}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

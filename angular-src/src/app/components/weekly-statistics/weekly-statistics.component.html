@@ -1,0 +1,56 @@
+<input type="checkbox" name="showChart" [(ngModel)]="showChart" id="showChart"><label for="showChart">Show Chart</label>  
+<div class="row">
+  <div class="col-sm-2 col-md-2 col-lg-2" id="switch-conteiner">
+    <label class="switch-light switch" (change)="update()">
+        <input type="checkbox" name="isHours" [(ngModel)]="isHours">
+        <span class="well">
+          <span>MM</span>
+          <span>HH</span>
+          <a class="btn btn-primary"></a>
+        </span>
+      </label>
+  </div>
+  <div class="col-sm-10 col-md-10 col-lg-10">
+    <app-datepicker (childData)="onDateRes($event)"></app-datepicker>
+  </div>
+</div>
+<div *ngIf="totalWeeklyTime!==undefined">Total weekly time: {{totalWeeklyTime}}/{{week.standardWeeklyTime}}</div>
+<div>
+  <div *ngIf="weeklyTime">
+    <table class="table table-striped table-hover" >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Sun</th>
+          <th>Mon</th>
+          <th>Tue</th>
+          <th>Wed</th>
+          <th>Thu</th>
+          <th>Fri</th>
+          <th>Sat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="showImages">
+          <td>ImQC</td>
+          <td *ngFor="let time of weeklyTimeImagesQC; let i=index" [class.active]="i === selectedDay" (click)="cellClicked($event, i, 'Images QC')">{{time}}</td>
+        </tr>
+        <tr *ngIf="showCE">
+          <td>CE</td>
+          <td *ngFor="let time of weeklyTimeCE; let i=index" [class.active]="i === selectedDay" (click)="cellClicked($event, i, 'ce')">{{time}}</td>
+        </tr>
+        <tr *ngIf="showQE">
+          <td>QE</td>
+          <td *ngFor="let time of weeklyTimeQE; let i=index" [class.active]="i === selectedDay" (click)="cellClicked($event, i, 'qe')">{{time}}</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td *ngFor="let time of weeklyTime; let i=index" [class.active]="i === selectedDay" (click)="cellClicked($event, i, 'all')">{{time}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-chart [weeklyTime]="weeklyTime" *ngIf="showChart"></app-chart>
+<app-day-details [dayCases]="selectedDayCases" *ngIf="selectedDay!==null"></app-day-details>

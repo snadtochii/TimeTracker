@@ -1,0 +1,9 @@
+tr:hover{
+    background-color: transparent !important;
+}
+tr{
+    background-color: inherit !important;
+}
+td:hover{
+    background-color: #49515a;
+}

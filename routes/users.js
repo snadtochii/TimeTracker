@@ -34,7 +34,6 @@ router.post('/register', (req, res, next) => {
             });
         }
     })
-
 });
 
 // Authenticate
@@ -78,7 +77,7 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
 });
 
 // Add step
-router.post('/write', (req, res, next) => {
+router.post('cases/write', (req, res, next) => {
     const username = req.body.username;
 
     User.getUserByUsername(username, (err, user) => {
@@ -86,7 +85,6 @@ router.post('/write', (req, res, next) => {
         if (!user) {
             return res.json({ success: false, msg: 'User not found' });
         }
-        console.log(username);
         let newCase = {
             caseID: req.body.caseID,
             step: req.body.step,
@@ -96,38 +94,51 @@ router.post('/write', (req, res, next) => {
             isOBL: req.body.isOBL,
             date: new Date()
         };
-
-        User.update({ username: username }, { $push: { cases: newCase } }, () => { res.json({ msg: 'tututu' }) });
-        console.log(user);
-
+        User.update({ username: username }, { $push: { cases: newCase } }, () => { res.json({ success: true, msg: 'User was added'  }) });
     });
 });
 
-
-// Get today's cases
-router.post('/read', (req, res, next) => {
+// Get time
+router.post('cases/read', (req, res, next) => {
     const username = req.body.username;
-    const date = req.body.date;
+    const dateObj = req.body.date;
     const role = req.body.role;
+    const date = new Date(dateObj.y, dateObj.m - 1, dateObj.d);
     let todaysCases = [];
     let timeSynthes = 0, timeObl = 0;
+    let separatedStep = 'images qc';
 
     User.getUserByUsername(username, (err, user) => {
         if (err) throw err;
         if (!user) {
             return res.json({ success: false, msg: 'User not found' });
         } else {
-            user.cases.forEach((selectedCase, index, arr) => {
-                if (selectedCase.date && selectedCase.time
-                    && selectedCase.date.getDate() == date.d
-                    && selectedCase.date.getMonth() + 1 == date.m
-                    && selectedCase.date.getFullYear() == date.y
-                    && selectedCase.role == role) {
 
-                    if (selectedCase.IsOBL) {
-                        timeObl += selectedCase.time;
-                    } else {
-                        timeSynthes += selectedCase.time;
+            user.cases.forEach((selectedCase, index, arr) => {
+                if (selectedCase.date && selectedCase.time) {
+                    let selectedDate = new Date(selectedCase.date.getFullYear(),selectedCase.date.getMonth(), selectedCase.date.getDate());
+                    if (selectedDate.getTime() == date.getTime()) {
+                        // && selectedCase.date.getDate() == date.d
+                        // && selectedCase.date.getMonth() + 1 == date.m
+                        // && selectedCase.date.getFullYear() == date.y) {
+                        //&& selectedCase.role == role) {
+
+                        if (role.toLowerCase() == separatedStep.toLowerCase()) {
+                            if (selectedCase.step.toLowerCase() == separatedStep.toLowerCase())
+                                if (selectedCase.isOBL) {
+                                    timeObl += selectedCase.time;
+                                } else {
+                                    timeSynthes += selectedCase.time;
+                                }
+                        } else {
+                            if (selectedCase.step.toLowerCase() != separatedStep) {
+                                if (selectedCase.isOBL) {
+                                    timeObl += selectedCase.time;
+                                } else {
+                                    timeSynthes += selectedCase.time;
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -136,4 +147,41 @@ router.post('/read', (req, res, next) => {
     });
 });
 
+// Get today's cases
+router.post('/cases', (req, res, next) => {
+    const username = req.body.username;
+
+    User.getUserByUsername(username, (err, user) => {
+        if (err) throw err;
+        if (!user) {
+            return res.json({ success: false, msg: 'User not found' });
+        } else {
+            // user.cases.sort((a, b) => {
+            //     return b.date - a.date;
+            // });
+            return res.json({ success: true, cases: user.cases });
+        }
+    });
+});
+
+router.post('/cases/weekly', (req, res, next) => {
+    const username = req.body.username;
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
+
+    User.getUserByUsername(username, (err, user) => {
+        if (err) throw err;
+        if (!user) {
+            return res.json({ success: false, msg: 'User not found' });
+        } else {
+            let weekCases = [];
+            user.cases.forEach((el, i, arr) => {
+                if (el.date && el.date >= startDate && el.date <= endDate) {
+                    weekCases.push(el);
+                }
+            });
+            return res.json({ success: true, weekCases: weekCases });
+        }
+    });
+});
 module.exports = router;

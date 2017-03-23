@@ -14,14 +14,18 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('https://localhost:3000/users/register', user, { headers: headers })
+    //return this.http.post('https://10.20.24.60:3000/users/register', user, { headers: headers })
+        return this.http.post('https://localhost:3001/users/register', user, { headers: headers })
+
       .map(res => res.json());
   }
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('https://localhost:3000/users/authenticate', user, { headers: headers })
+    //return this.http.post('https://10.20.24.60:3000/users/authenticate', user, { headers: headers })
+        return this.http.post('https://localhost:3001/users/authenticate', user, { headers: headers })
+
       .map(res => res.json());
   }
 
@@ -30,7 +34,9 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('https://localhost:3000/users/profile', { headers: headers })
+    //return this.http.get('https://10.20.24.60:3000/users/profile', { headers: headers })
+        return this.http.get('https://localhost:3001/users/profile', { headers: headers })
+
       .map(res => res.json());
   }
 
@@ -54,5 +60,8 @@ export class AuthService {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
+  }
+  getUsername(){
+    return localStorage.getItem('user');
   }
 }

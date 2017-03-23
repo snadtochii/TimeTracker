@@ -17,6 +17,6 @@
     "passport": "*",
     "passport-jwt": "*"
   },
-  "author": "Serhii Nadtochii",
+  "author": "Sergii Nadtochii",
   "license": "ISC"
 }
