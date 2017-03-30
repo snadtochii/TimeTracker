@@ -25,8 +25,8 @@ export class WeeklyStatisticsComponent implements OnInit {
   private showCE: boolean = false;
   private showQE: boolean = false;
 
-  public selectedDay = null;
-  public selectedDayCases = { cases: null, show: null, selectedDate: null };
+  private selectedDay = null;
+  private selectedDayCases = { cases: null, show: null, selectedDate: null };
 
   @Input()
   date: Date;
@@ -70,7 +70,6 @@ export class WeeklyStatisticsComponent implements OnInit {
             this.showImages = true;
             this.week.weeklyCasesImagesQC[ind].push(el);
             this.week.weeklyTimeImagesQCMM[ind] += el.time;
-
           } else {
             this.showQE = true;
             this.week.weeklyCasesQE[ind].push(el);
@@ -96,9 +95,14 @@ export class WeeklyStatisticsComponent implements OnInit {
     this.standardWeeklyTime = !this.isHours ? this.week.standardWeeklyTimeMM :
       +((this.week.standardWeeklyTimeMM / this.week.minutesInHour).toFixed(1));
   }
-  public selRole;
   // events
   public cellClicked(e: any, i: number, role: string): void {
+    let actElement = document.querySelector('td.active');
+    if (actElement){
+      actElement.classList.remove('active');
+    }
+    e.target.classList.add('active');
+
     this.selectedDay = null;
     this.selectedDayCases = { cases: null, show: null, selectedDate: null };
     this.selectedDay = i;
@@ -108,7 +112,7 @@ export class WeeklyStatisticsComponent implements OnInit {
       this.date.getDate() - this.date.getDay() + this.selectedDay);
     if (this.selectedDay !== null) {
       if (role.toLowerCase() === 'all') {
-        this.selectedDayCases.cases = this.week.weeklyCases[this.selectedDay]
+        this.selectedDayCases.cases = this.week.weeklyCases[this.selectedDay];
         this.selectedDayCases.show = 'all';
       }
       if (role.toLowerCase() === 'images qc') {
@@ -119,13 +123,11 @@ export class WeeklyStatisticsComponent implements OnInit {
       if (role.toLowerCase() === 'ce') {
         this.selectedDayCases.cases = this.week.weeklyCasesCE[this.selectedDay];
         this.selectedDayCases.show = 'ce';
-
       }
       if (role.toLowerCase() === 'qe') {
         this.selectedDayCases.cases = this.week.weeklyCasesQE[this.selectedDay]
         this.selectedDayCases.show = 'qe';
       }
-
     }
   }
 }

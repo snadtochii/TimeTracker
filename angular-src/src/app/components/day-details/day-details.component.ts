@@ -15,12 +15,11 @@ export class DayDetailsComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() { }
-  
+
   ngOnChanges(changes: SimpleChanges) {
     this.casesToOutput = changes['dayCases'].currentValue.cases;
     this.selectedDate = changes['dayCases'].currentValue.selectedDate.toString().slice(0, 15);
   }
-
 
   filterByStep(e, step): void {
     console.log(e);

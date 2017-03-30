@@ -21,6 +21,7 @@ export class CasesService {
       startDate: new Date(day.getFullYear(), day.getMonth(), day.getDate() - dayOfWeek),
       endDate: new Date(day.getFullYear(), day.getMonth(), day.getDate() + (7 - dayOfWeek)),
     }
+    console.log(data);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('https://10.20.24.60:3000/users/cases/weekly', data, { headers: headers })

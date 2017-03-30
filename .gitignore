@@ -1,6 +1,9 @@
 # dependencies
 /node_modules
 
+# compiled frontend
+/public
+
 # logs
 *.log
 

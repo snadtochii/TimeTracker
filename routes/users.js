@@ -77,7 +77,7 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
 });
 
 // Add step
-router.post('cases/write', (req, res, next) => {
+router.post('/cases/write', (req, res, next) => {
     const username = req.body.username;
 
     User.getUserByUsername(username, (err, user) => {
@@ -94,12 +94,12 @@ router.post('cases/write', (req, res, next) => {
             isOBL: req.body.isOBL,
             date: new Date()
         };
-        User.update({ username: username }, { $push: { cases: newCase } }, () => { res.json({ success: true, msg: 'User was added'  }) });
+        User.update({ username: username }, { $push: { cases: newCase } }, () => { res.json({ success: true, msg: 'User was added' }) });
     });
 });
 
 // Get time
-router.post('cases/read', (req, res, next) => {
+router.post('/cases/read', (req, res, next) => {
     const username = req.body.username;
     const dateObj = req.body.date;
     const role = req.body.role;
@@ -116,13 +116,8 @@ router.post('cases/read', (req, res, next) => {
 
             user.cases.forEach((selectedCase, index, arr) => {
                 if (selectedCase.date && selectedCase.time) {
-                    let selectedDate = new Date(selectedCase.date.getFullYear(),selectedCase.date.getMonth(), selectedCase.date.getDate());
+                    let selectedDate = new Date(selectedCase.date.getFullYear(), selectedCase.date.getMonth(), selectedCase.date.getDate());
                     if (selectedDate.getTime() == date.getTime()) {
-                        // && selectedCase.date.getDate() == date.d
-                        // && selectedCase.date.getMonth() + 1 == date.m
-                        // && selectedCase.date.getFullYear() == date.y) {
-                        //&& selectedCase.role == role) {
-
                         if (role.toLowerCase() == separatedStep.toLowerCase()) {
                             if (selectedCase.step.toLowerCase() == separatedStep.toLowerCase())
                                 if (selectedCase.isOBL) {
@@ -156,9 +151,6 @@ router.post('/cases', (req, res, next) => {
         if (!user) {
             return res.json({ success: false, msg: 'User not found' });
         } else {
-            // user.cases.sort((a, b) => {
-            //     return b.date - a.date;
-            // });
             return res.json({ success: true, cases: user.cases });
         }
     });

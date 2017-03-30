@@ -1,6 +1,6 @@
 import { AngularSrcPage } from './app.po';
 
-describe('angular-src App', function() {
+describe('angular-src App', () => {
   let page: AngularSrcPage;
 
   beforeEach(() => {

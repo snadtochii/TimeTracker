@@ -7,3 +7,9 @@ tr{
 td:hover{
     background-color: #49515a;
 }
+#switch-conteiner{
+    height: 30px;
+}
+.controls{
+    margin-bottom: 10px;
+}
