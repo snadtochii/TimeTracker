@@ -14,12 +14,12 @@ const https = require('https');
 mongoose.connect(config.database);
 
 // On Connected
-mongoose.connection.on('connected', ()=>{
+mongoose.connection.on('connected', () => {
     console.log('connected to database' + config.database);
 });
 
 // On Error
-mongoose.connection.on('error', (err)=>{
+mongoose.connection.on('error', (err) => {
     console.log('database error' + err);
 });
 
@@ -27,7 +27,7 @@ const app = express();
 
 const users = require("./routes/users");
 //Port number
-const port = 3000;
+const port = 3001;
 
 //CORS Middleware
 app.use(cors());
@@ -47,12 +47,12 @@ require('./config/passport')(passport);
 app.use('/users', users);
 
 // Index Route
-app.get("/", (req, res, next)=>{
+app.get("/", (req, res, next) => {
     res.send('tututu');
 });
 
-app.get("*", (req, res)=>{
-    res.sendFile('index.html', { root: path.join(__dirname, 'public')});
+app.get("*", (req, res) => {
+    res.sendFile('index.html', { root: path.join(__dirname, 'public') });
     //res.sendFile(path.join(__dirname, 'piblic/index.html'));
 });
 
@@ -62,8 +62,8 @@ app.get("*", (req, res)=>{
 // });
 
 const options = {
-  key: fs.readFileSync('ssl/key.pem'),
-  cert: fs.readFileSync('ssl/server.crt')
+    key: fs.readFileSync('ssl/key.pem'),
+    cert: fs.readFileSync('ssl/server.crt')
 };
 ////Start Https-server
 https.createServer(options, app).listen(port, () => {

@@ -1,16 +1,13 @@
-<div class="container-fluid">
+<div class="container">
   <div class="row">
-    <div class="col-sm-0 col-md-1 col-lg-2"></div>
-    <div class="col-sm-12 col-md-10 col-lg-8">
-      <div *ngIf="user">
-        <h2 class="page-header">{{user.name}}</h2>
-        <ul>
-          <li class="list-group-item">Username: {{user.username}}</li>
-          <li class="list-group-item">Email: {{user.email}}</li>
-        </ul>
-
+    <div class="col s12">
+      <div class="card main-cards">
+        <div class="card-content">
+          <span class="card-title">{{user.name}}</span>
+            <p>username: {{user.username}}</p>
+            <p>email: {{user.email}}</p>
+        </div>
       </div>
     </div>
-    <div class="col-sm-0 col-md-1 col-lg-2"></div>
   </div>
 </div>

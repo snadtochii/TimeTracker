@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
 import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
 
-  authToken: any;
   user: any;
 
   constructor(private http: Http) { }
@@ -14,48 +14,35 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('https://10.20.24.60:3000/users/register', user, { headers: headers })
+    return this.http.post('https://10.20.24.60:3001/users/register', user, { headers: headers })
       .map(res => res.json());
   }
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('https://10.20.24.60:3000/users/authenticate', user, { headers: headers })
-      .map(res => res.json());
+    return this.http.post('https://10.20.24.60:3001/users/authenticate', user, { headers: headers })
+      .map(res => { console.log(res); return res.json() });
   }
 
   getProfile() {
-    let headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.get('https://10.20.24.60:3000/users/profile', { headers: headers })
-      .map(res => res.json());
+    return Observable.of(JSON.parse(localStorage.getItem('user')));
   }
 
   storeUserData(token, user) {
-    localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    this.authToken = token;
     this.user = user;
   }
 
-  loadToken() {
-    const token = localStorage.getItem('id_token');
-    this.authToken = token;
+  logedIn() {
+    return localStorage.getItem('user');
   }
 
-  logedIn() {
-    return tokenNotExpired();
-  }
-  
   logout() {
-    this.authToken = null;
     this.user = null;
     localStorage.clear();
   }
-  getUsername(){
+  getUser() {
     return localStorage.getItem('user');
   }
 }

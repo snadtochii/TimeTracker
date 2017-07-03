@@ -32,7 +32,9 @@ const UserSchema = mongoose.Schema({
         }]
     }
 });
-
+UserSchema.methods.verifyPassword = function (password) {
+  return bcrypt.compare(password, this.password)
+}
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
@@ -56,6 +58,12 @@ module.exports.addUser = function (newUser, callback) {
 }
 
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
+    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+        if (err) throw err;
+        callback(null, isMatch);
+    });
+}
+module.exports.verifyPassword = function (candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
         if (err) throw err;
         callback(null, isMatch);

@@ -18,3 +18,6 @@
 .c9/
 *.launch
 .settings/
+
+# third-party libs
+/angular-src/src/libs

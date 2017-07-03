@@ -15,26 +15,29 @@ export class ChartComponent {
       }]
     },
     animation: {
-      duration: 0,
+      duration: 1000
     },
     hover: {
-      animationDuration: 0
+      animationDuration: 300
     }
   };
-  public barChartLabels: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  public barChartLabels: string[];
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
   public barChartData: any[];
 
   @Input()
-  weeklyTime: any;
+  dataToChart: any;
 
   constructor() { }
 
   ngOnChanges() {
-    this.barChartData = [
-      { data: this.weeklyTime, label: 'Cases' },
-    ];
+    this.barChartData = [];
+    this.barChartLabels = [];
+
+    console.log(this.dataToChart);
+    this.dataToChart.data && (this.barChartData = this.dataToChart.data)
+    this.dataToChart.labels && (this.barChartLabels = this.dataToChart.labels);
   }
 
   // events
