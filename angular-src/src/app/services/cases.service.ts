@@ -7,12 +7,6 @@ import 'rxjs/add/observable/of';
 export class CasesService {
 
   constructor(private http: Http) { }
-  getAllCases(user) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('https://10.20.24.60:3001/users/cases', {username: user.username}, { headers: headers })
-      .map(res => res.json());
-  }
 
   getCases(user) {
     let data = {
@@ -35,6 +29,7 @@ export class CasesService {
     return this.http.post('https://10.20.24.60:3001/users/cases/details', data, { headers: headers })
       .map(res => res.json());
   }
+
   getWeeklyTime(user, date = new Date()) {
     let weekDates = this.getWeekDates(date);
     let data = {

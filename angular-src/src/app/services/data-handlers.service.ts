@@ -8,31 +8,45 @@ export class DataHandlersService {
 
   constructor() { }
 
-  getMonthlyStatistics(cases: any[], step: string): any[] {
+  getMonthlyStatistics(cases: any[], options: any): any[] {
     let monthlyStatistics = (new Array(12)).fill(0);
-    let monthlyFull: any = {
-      fullTime: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      counter: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    };
-    console.log(monthlyFull)
+    let monthlyFull: FullData[] = [];
+
 
     let temp = cases.filter((el) => {
-      return el.step.toLowerCase() === step.toLowerCase();
-    });
+      return (el.step.toLowerCase() === options.step.toLowerCase());
+    })
+      .filter((el) => {
+        return options.caseTypes.some((type, i, arr) => {
+          return /(\w+)$/.exec(type)[0].toLowerCase() === /(\w+)$/.exec(el.caseType)[0].toLowerCase();
+        });
+      });
     temp.forEach((el, i, arr) => {
 
       if (el.date && new Date(el.date) >= new Date(2017, 0)) {
 
         let ind = new Date(el.date).getMonth();
-
-        monthlyFull.fullTime[ind] += el.time;
-        monthlyFull.counter[ind]++;
+        if (!monthlyFull[ind]) {
+          monthlyFull[ind] = new FullData();
+        }
+        monthlyFull[ind].fullTime += el.time;
+        monthlyFull[ind].counter++;
       }
     });
-
-    monthlyStatistics = monthlyFull.fullTime.map((el, i) => {
-      return el / monthlyFull.counter[i];
+    console.log(monthlyFull)
+    monthlyStatistics = monthlyFull.map((el, i) => {
+      if (!el) { return undefined; }
+      return el.fullTime / el.counter;
     })
+    console.log(monthlyStatistics)
     return monthlyStatistics;
+  }
+}
+class FullData {
+  fullTime: number;
+  counter: number;
+  constructor() {
+    this.fullTime = 0;
+    this.counter = 0;
   }
 }

@@ -18,7 +18,6 @@ export class ProfileComponent implements OnInit {
       this.user = user;
     },
     err=>{
-      console.log(err);
       return false;
     })
   }

@@ -133,7 +133,9 @@ export class WeeklyTimeStatisticsComponent implements OnInit {
     this.weekToChart = {
       data: data,
       date: this.weekDates,
-      labels: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+      labels: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+      options: null,
+      type: 'bar'
     }
   }
 }

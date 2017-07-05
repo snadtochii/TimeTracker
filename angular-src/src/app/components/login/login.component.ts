@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
     if (!this.validateService.validateLogin(user)) {
-      this.flashMessagesService.show('Please enter login', {
+      this.flashMessagesService.show('Please enter login and password', {
         cssClass: 'alert-danger',
         timeout: 5000
       });
@@ -51,8 +51,6 @@ export class LoginComponent implements OnInit {
         });
         this.router.navigate(['login']);
       }
-
-    })
+    });
   }
-
 }

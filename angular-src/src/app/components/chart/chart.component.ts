@@ -6,7 +6,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent {
-  public barChartOptions: any = {
+  private barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true,
     scales: {
@@ -21,10 +21,9 @@ export class ChartComponent {
       animationDuration: 300
     }
   };
-  public barChartLabels: string[];
-  public barChartType: string = 'bar';
-  public barChartLegend: boolean = true;
-  public barChartData: any[];
+  private barChartType: string = 'bar';
+  private barChartLabels: string[];
+  private barChartData: any[];
 
   @Input()
   dataToChart: any;
@@ -32,12 +31,10 @@ export class ChartComponent {
   constructor() { }
 
   ngOnChanges() {
-    this.barChartData = [];
-    this.barChartLabels = [];
-
-    console.log(this.dataToChart);
     this.dataToChart.data && (this.barChartData = this.dataToChart.data)
     this.dataToChart.labels && (this.barChartLabels = this.dataToChart.labels);
+    this.dataToChart.options && (this.barChartOptions = this.dataToChart.options);
+    this.dataToChart.type && (this.barChartType = this.dataToChart.type);
   }
 
   // events
